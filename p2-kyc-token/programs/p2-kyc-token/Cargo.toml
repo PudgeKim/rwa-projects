@@ -1,0 +1,22 @@
+[package]
+name = "p2-kyc-token"
+version = "0.1.0"
+description = "P2 — KYC-gated token via Token-2022 Default Account State (RWA study plan)"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "p2_kyc_token"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = { version = "1.0.2", features = ["init-if-needed"] }
+# token_2022_extensions pulls in the extension CPI helpers (default_account_state_initialize, etc.)
+anchor-spl = { version = "1.0.2", features = ["token_2022_extensions"] }

@@ -1,0 +1,26 @@
+# Anchor / Solana
+.anchor/
+target/
+**/*.rs.bk
+
+# Rust
+Cargo.lock
+
+# Node
+node_modules/
+dist/
+.yarn/
+yarn-error.log
+npm-debug.log*
+
+# Keys & secrets — never commit these
+*.pem
+**/deploy/*-keypair.json
+.env
+.env.*
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.log
