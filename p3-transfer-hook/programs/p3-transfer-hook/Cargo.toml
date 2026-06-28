@@ -1,0 +1,29 @@
+[package]
+name = "p3-transfer-hook"
+version = "0.1.0"
+description = "P3a — Compliance transfer hook (allowlist) via Token-2022 (RWA study plan)"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "p3_transfer_hook"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = "1.0.2"
+anchor-spl = { version = "1.0.2", features = ["token_2022_extensions"] }
+
+# The transfer-hook standard library. THESE TWO are the version-sensitive part:
+# their versions must agree with the `spl-token-2022` that `anchor-spl 1.0.2`
+# pulls in. If `cargo build` complains about duplicate/incompatible
+# `solana-program` / `spl-*` versions, this is the knob to turn — tell me the
+# error and we'll align the versions (or pin them via [patch]).
+spl-transfer-hook-interface = "0.9.0"
+spl-tlv-account-resolution = "0.9.0"
