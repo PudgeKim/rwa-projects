@@ -1,0 +1,28 @@
+[package]
+name = "p4-pyth-oracle"
+version = "0.1.0"
+description = "P4 — Pyth oracle price reader (safe, staleness/confidence-checked) for the RWA study plan"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "p4_pyth_oracle"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "1.0.2"
+
+# The Pyth pull-oracle SDK. THIS is the version-sensitive part of P4 (same story
+# as P3's spl-transfer-hook crates): pyth-solana-receiver-sdk must agree with the
+# `solana-program` version that `anchor-lang 1.0.2` pulls in. If the first
+# `cargo build` complains about duplicate/incompatible `solana-program` or
+# `anchor` versions, this is the knob to turn — tell me the error and we'll pin
+# the exact compatible version (or add a [patch]). The *code* won't change.
+pyth-solana-receiver-sdk = "0.6.1"

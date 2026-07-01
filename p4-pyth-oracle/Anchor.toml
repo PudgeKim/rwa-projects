@@ -1,0 +1,40 @@
+[toolchain]
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+p4_pyth_oracle = "OracleP4aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+# --- Oracle test setup -------------------------------------------------------
+# Pyth is a PULL oracle: the price lives in an account someone posted, not in our
+# program. For the local test we CLONE two things from mainnet into the local
+# validator so a real price account exists to read:
+#   1. The Pyth Solana receiver PROGRAM (owns PriceUpdateV2 accounts).
+#   2. A live SOL/USD price feed account (shard 0).
+# The cloned account keeps its mainnet publish_time; because the validator's
+# clock is real wall-time and tests run seconds later, a MAX_PRICE_AGE of 60s
+# still passes. (Set max age to 1s in the program to watch the staleness check
+# reject it instead.)
+#
+# NOTE: verify these addresses against https://docs.pyth.network before running;
+# if `anchor test` says "account not found", the address or cluster is the fix.
+[test.validator]
+url = "https://api.mainnet-beta.solana.com"
+
+[[test.validator.clone]]
+address = "rec5EKMGg6MxZYaMdyBfgwp4d5rB9T1VQH5pJv5LtFJ" # Pyth receiver program
+
+[[test.validator.clone]]
+address = "7UVimffxr9ow1uXYxsr4LHAcV58mLzhmwaeKvJ1pjLiE" # SOL/USD price feed account (shard 0)
