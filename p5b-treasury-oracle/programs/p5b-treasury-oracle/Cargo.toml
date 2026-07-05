@@ -1,0 +1,28 @@
+[package]
+name = "p5b-treasury-oracle"
+version = "0.1.0"
+description = "P5b — Tokenized treasury with oracle-priced NAV (Pyth) for the RWA study plan"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "p5b_treasury_oracle"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = "1.0.2"
+anchor-spl = { version = "1.0.2", features = ["token_2022_extensions"] }
+
+# P5b combines P5a's token CPIs (anchor-spl) with P4's oracle (this crate). Both
+# are version-sensitive: pyth-solana-receiver-sdk must agree with the
+# `solana-program` that anchor-lang/anchor-spl pull in. If the first
+# `cargo build` complains about duplicate/incompatible `solana-program` /
+# `anchor` versions, paste me the error and we'll pin it (or add a [patch]).
+pyth-solana-receiver-sdk = "0.6.1"

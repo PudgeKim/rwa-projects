@@ -1,0 +1,31 @@
+[toolchain]
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+p5b_treasury_oracle = "Fund5baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+# --- Oracle test setup (same as P4) ------------------------------------------
+# Clone the Pyth receiver program + a live SOL/USD price account from mainnet so
+# a real, fresh price exists for subscribe/redeem to read. Verify the addresses
+# against https://docs.pyth.network if `anchor test` says "account not found".
+[test.validator]
+url = "https://api.mainnet-beta.solana.com"
+
+[[test.validator.clone]]
+address = "rec5EKMGg6MxZYaMdyBfgwp4d5rB9T1VQH5pJv5LtFJ" # Pyth receiver program
+
+[[test.validator.clone]]
+address = "7UVimffxr9ow1uXYxsr4LHAcV58mLzhmwaeKvJ1pjLiE" # SOL/USD price feed account (shard 0)
